@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const sharp = require('sharp');
+const { PDFDocument } = require('pdf-lib');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -49,6 +50,56 @@ app.post('/api/compress', upload.single('image'), async (req, res) => {
     } catch (error) {
         console.error('Error saat kompresi:', error);
         res.status(500).send('Terjadi kesalahan saat memproses gambar.');
+    }
+});
+// ENDPOINT: CONVERT GAMBAR KE PDF
+app.post('/api/convert-pdf', upload.array('images', 20), async (req, res) => {
+    try {
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).send('Tidak ada file gambar yang diunggah.');
+        }
+
+        // Inisialisasi dokumen PDF baru
+        const pdfDoc = await PDFDocument.create();
+
+        // Looping untuk setiap gambar yang diunggah
+        for (const file of req.files) {
+            // Memaksa gambar menggunakan sharp dan mengambil metadata
+            const sharpImage = sharp(file.buffer);
+            
+            // Konversi ke format JPEG (paling ringan & paling kompatibel untuk embed PDF)
+            const jpegBuffer = await sharpImage.jpeg().toBuffer();
+            
+            // Baca ulang metadata dari jpegBuffer untuk mendapatkan dimensi final
+            const metadata = await sharp(jpegBuffer).metadata();
+            
+            // Embed JPEG buffer ke PDF
+            const jpgImage = await pdfDoc.embedJpg(jpegBuffer);
+            
+            // Tambahkan halaman baru dengan ukuran sesuai dimensi gambar
+            const page = pdfDoc.addPage([metadata.width, metadata.height]);
+            
+            // Gambar image menutupi seluruh halaman
+            page.drawImage(jpgImage, {
+                x: 0,
+                y: 0,
+                width: metadata.width,
+                height: metadata.height,
+            });
+        }
+
+        // Simpan PDF menjadi buffer Uint8Array lalu konversi ke Node Buffer
+        const pdfBytes = await pdfDoc.save();
+        const pdfBuffer = Buffer.from(pdfBytes);
+
+        // Kirimkan buffer PDF ke client
+        res.type('application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename="hasil-convert.pdf"');
+        res.send(pdfBuffer);
+
+    } catch (error) {
+        console.error('Error saat konversi ke PDF:', error);
+        res.status(500).send('Terjadi kesalahan saat mengonversi gambar ke PDF.');
     }
 });
 

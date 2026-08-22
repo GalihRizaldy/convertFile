@@ -113,16 +113,16 @@ export default function Home() {
     <header className="h-16 bg-white border-b flex items-center px-4 sm:px-8 shrink-0 z-50 w-full justify-between relative shadow-sm">
       <div className="flex items-center space-x-8 w-full justify-between lg:justify-start">
         {/* Mock Logo */}
-        <div className="font-black text-2xl flex items-center cursor-pointer select-none">
+        <a href="/" className="font-black text-2xl flex items-center cursor-pointer select-none">
           <span>I</span>
           <i className="fa-solid fa-heart mx-1.5 text-blue-500 text-xl"></i>
           <span>IMG</span>
-        </div>
+        </a>
         
         {/* Desktop Menu */}
         <nav className="hidden lg:flex space-x-6 text-[13px] font-bold text-gray-600 h-16 items-center">
-          <a href="#" className="text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-blue-500 pt-[3px]">KOMPRES GAMBAR</a>
-          <a href="#" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">CONVERT GAMBAR</a>
+          <a href="/" className="text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-blue-500 pt-[3px]">KOMPRES GAMBAR</a>
+          <a href="/convert-gambar" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">CONVERT GAMBAR</a>
           <a href="#" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">HELP</a>
         </nav>
 
@@ -146,8 +146,8 @@ export default function Home() {
             aria-hidden="true"
           />
           <div className="absolute top-16 left-0 w-full bg-white border-b shadow-lg lg:hidden z-40 flex flex-col font-bold text-[13px] text-gray-700 animate-in slide-in-from-top-2">
-            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b text-blue-500 bg-blue-50">KOMPRES GAMBAR</a>
-            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">CONVERT GAMBAR</a>
+            <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b text-blue-500 bg-blue-50">KOMPRES GAMBAR</a>
+            <a href="/convert-gambar" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">CONVERT GAMBAR</a>
             <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="p-4 hover:bg-gray-50">HELP</a>
           </div>
         </>
