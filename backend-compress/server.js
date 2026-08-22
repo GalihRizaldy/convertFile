@@ -4,6 +4,8 @@ const cors = require('cors');
 const multer = require('multer');
 const sharp = require('sharp');
 const { PDFDocument } = require('pdf-lib');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,6 +13,19 @@ const port = process.env.PORT || 5000;
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000'
 }));
+
+// Keamanan: Menyembunyikan header Express dan mencegah XSS
+app.use(helmet());
+
+// Keamanan: Rate Limiter (Mencegah Spam/DDoS level aplikasi)
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 menit
+    max: 60, // Limit 60 request per IP (dinaikkan karena kompresi gambar dikirim 1 per 1 dari frontend)
+    message: 'Terlalu banyak permintaan dari IP ini, coba lagi dalam 15 menit.',
+    standardHeaders: true, 
+    legacyHeaders: false,
+});
+app.use(limiter);
 
 // Gunakan Memory Storage (File disimpan di RAM sementara, bukan di disk)
 const storage = multer.memoryStorage();

@@ -41,7 +41,15 @@ export default function ConvertGambar() {
         originalSize: file.size,
         previewUrl: URL.createObjectURL(file)
       }));
-      setFiles(prev => [...prev, ...newFiles]);
+      setFiles(prev => {
+        if (prev.length + newFiles.length > 20) {
+          alert('Maksimal hanya 20 gambar yang diperbolehkan dalam satu kali proses!');
+          // Bersihkan URL gambar yang ditolak agar tidak memakan memori
+          newFiles.forEach(f => URL.revokeObjectURL(f.previewUrl));
+          return prev;
+        }
+        return [...prev, ...newFiles];
+      });
     }
   }, []);
 
@@ -122,7 +130,7 @@ export default function ConvertGambar() {
         <nav className="hidden lg:flex space-x-6 text-[13px] font-bold text-gray-600 h-16 items-center">
           <a href="/" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">KOMPRES GAMBAR</a>
           <a href="/convert-gambar" className="text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-blue-500 pt-[3px]">CONVERT GAMBAR</a>
-          <a href="#" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">HELP</a>
+          <a href="/help" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">HELP</a>
         </nav>
 
         <button 
@@ -143,7 +151,7 @@ export default function ConvertGambar() {
           <div className="absolute top-16 left-0 w-full bg-white border-b shadow-lg lg:hidden z-40 flex flex-col font-bold text-[13px] text-gray-700 animate-in slide-in-from-top-2">
             <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">KOMPRES GAMBAR</a>
             <a href="/convert-gambar" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b text-blue-500 bg-blue-50">CONVERT GAMBAR</a>
-            <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="p-4 hover:bg-gray-50">HELP</a>
+            <a href="/help" onClick={() => setIsMobileMenuOpen(false)} className="p-4 hover:bg-gray-50">HELP</a>
           </div>
         </>
       )}
