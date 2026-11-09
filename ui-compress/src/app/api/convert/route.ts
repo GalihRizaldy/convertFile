@@ -15,10 +15,13 @@ export async function POST(req: NextRequest) {
   let outputFilePath = '';
 
   try {
-    const publicKey = process.env.ILOVEPDF_PUBLIC_KEY;
-    const secretKey = process.env.ILOVEPDF_SECRET_KEY;
+    const rawPublicKey = process.env.ILOVEPDF_PUBLIC_KEY || '';
+    const rawSecretKey = process.env.ILOVEPDF_SECRET_KEY || '';
 
-    if (!publicKey || !secretKey || publicKey.trim() === '' || secretKey.trim() === '') {
+    const publicKey = rawPublicKey.trim().replace(/^["']|["']$/g, '');
+    const secretKey = rawSecretKey.trim().replace(/^["']|["']$/g, '');
+
+    if (!publicKey || !secretKey) {
       return NextResponse.json(
         { error: 'ILOVEPDF_PUBLIC_KEY atau ILOVEPDF_SECRET_KEY belum dikonfigurasi di file environment (.env.local).' },
         { status: 500 }
