@@ -18,6 +18,7 @@ export default function HelpPage() {
         <nav className="hidden lg:flex space-x-6 text-[13px] font-bold text-gray-600 h-16 items-center">
           <a href="/" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">KOMPRES GAMBAR</a>
           <a href="/convert-gambar" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">CONVERT GAMBAR</a>
+          <a href="/convert-dokumen" className="hover:text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-transparent">CONVERT DOKUMEN</a>
           <a href="/help" className="text-blue-500 transition-colors uppercase h-full flex items-center border-b-[3px] border-blue-500 pt-[3px]">HELP</a>
         </nav>
 
@@ -39,6 +40,7 @@ export default function HelpPage() {
           <div className="absolute top-16 left-0 w-full bg-white border-b shadow-lg lg:hidden z-40 flex flex-col font-bold text-[13px] text-gray-700 animate-in slide-in-from-top-2">
             <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">KOMPRES GAMBAR</a>
             <a href="/convert-gambar" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">CONVERT GAMBAR</a>
+            <a href="/convert-dokumen" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b hover:bg-gray-50">CONVERT DOKUMEN</a>
             <a href="/help" onClick={() => setIsMobileMenuOpen(false)} className="p-4 border-b text-blue-500 bg-blue-50">HELP</a>
           </div>
         </>
@@ -80,10 +82,21 @@ export default function HelpPage() {
             <hr className="border-gray-100" />
             
             <div>
-              <h3 className="font-bold text-gray-800 mb-2 flex items-center"><i className="fa-solid fa-file-pdf text-red-500 w-5"></i> Convert ke PDF</h3>
+              <h3 className="font-bold text-gray-800 mb-2 flex items-center"><i className="fa-solid fa-file-pdf text-red-500 w-5"></i> Convert Gambar ke PDF</h3>
               <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 ml-1">
                 <li>Upload gambar (urutan gambar menentukan urutan halaman PDF).</li>
                 <li>Klik tombol convert & unduh file PDF Anda.</li>
+              </ul>
+            </div>
+
+            <hr className="border-gray-100" />
+
+            <div>
+              <h3 className="font-bold text-gray-800 mb-2 flex items-center"><i className="fa-solid fa-file-lines text-emerald-600 w-5"></i> Convert Dokumen ke PDF</h3>
+              <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 ml-1">
+                <li>Upload file Word, Excel, atau PowerPoint.</li>
+                <li>Klik tombol Convert ke PDF.</li>
+                <li>Unduh file PDF hasil konversi ConvertAPI.</li>
               </ul>
             </div>
           </div>
@@ -134,6 +147,7 @@ export default function HelpPage() {
               <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">Express.js</span>
               <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">Sharp</span>
               <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">pdf-lib</span>
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">iLovePDF</span>
             </div>
           </div>
         </section>
